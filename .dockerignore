@@ -1,0 +1,16 @@
+# .dockerignore
+
+# Git 관련 파일 및 폴더
+.git
+.gitignore
+
+# 로컬 개발 환경 파일
+.env
+.DS_Store
+.vscode
+
+# 파이썬 캐시 및 가상 환경 폴더
+__pycache__
+*.pyc
+venv
+.venv
