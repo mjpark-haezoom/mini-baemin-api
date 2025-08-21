@@ -11,9 +11,9 @@ urlpatterns = [
     path("api/v1/auth/", include("accounts.urls")),
 
     # Swagger/Open API 관련 URL
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
-        'api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'),
-        name='swagger-ui'
+        "api/schema/swagger-ui/", SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui"
     ),
 ]
