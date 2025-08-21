@@ -39,6 +39,7 @@ RUN rm -rf /tmp
 
 # 일반 사용자 생성 및 권한 설정
 RUN adduser --disabled-password --no-create-home django-user
+RUN chown -R django-user:django-user /app
 
 # Path 설정 및 사용자 전환
 ENV PATH="/py/bin:$PATH"
