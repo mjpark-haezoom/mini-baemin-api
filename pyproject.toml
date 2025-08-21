@@ -1,7 +1,8 @@
 [tool.ruff]
 line-length = 88  # black과 호환
-target-version = "py312"  # Python 3.12 가정 (Django 4.2 지원)
+target-version = "py311"  # Python 3.11
 exclude = ["migrations"]  # Django 마이그레이션 파일 제외
+cache-dir = "/tmp/ruff_cache"
 
 [tool.ruff.lint]
 select = [
