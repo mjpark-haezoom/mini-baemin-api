@@ -1,2 +1,2 @@
 # requirements.dev.txt
-flake8
+ruff
