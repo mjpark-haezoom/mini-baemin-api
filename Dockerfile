@@ -13,6 +13,7 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
+    postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
 # uv 설치
@@ -28,12 +29,10 @@ EXPOSE 8000
 ARG DEV=false
 
 # 필수 패키지 설치
-RUN uv pip install -r /app/requirements.txt --system
-
-# DEV 변수가 "true"일 경우 개발용 패키지 추가 설치
-RUN if [ "$DEV" = "true" ] ; then \
-    uv pip install -r /app/requirements.dev.txt --system ; \
-fi
+RUN uv pip install -r /app/requirements.txt --system && \
+    if [ "$DEV" = "true" ] ; then \
+        uv pip install -r /app/requirements.dev.txt --system ; \
+    fi
 
 # 임시 파일 삭제
 RUN rm -rf /tmp
