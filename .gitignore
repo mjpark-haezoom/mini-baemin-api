@@ -1,0 +1,14 @@
+# .gitignore
+
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+.venv/
+env/
+venv/
+
+# Project-specific
+*.sqlite3
+.env
