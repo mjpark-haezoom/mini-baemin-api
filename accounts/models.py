@@ -4,9 +4,9 @@ from django.db import models
 
 class User(AbstractUser):
     USER_TYPE_CHOICES = (
-        ("consumer", "소비자"),
-        ("owner", "점주"),
-        ("operator", "운영자"),
+        ("consumer", "consumer"),
+        ("owner", "owner"),
+        ("operator", "operator"),
     )
 
     user_type = models.CharField(
