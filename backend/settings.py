@@ -26,6 +26,8 @@ INSTALLED_APPS = [
 
     "accounts.apps.AccountsConfig",
     "drf_spectacular",
+    "drf_spectacular_sidecar",  # Swagger UI 정적 에셋
+
 ]
 
 AUTH_USER_MODEL = "accounts.User"  # User 모델 경로 지정

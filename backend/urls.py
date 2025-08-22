@@ -10,10 +10,11 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/auth/", include("accounts.urls")),
 
-    # Swagger/Open API 관련 URL
+    # OpenAPI 스키마 (JSON)
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    # Swagger UI
     path(
-        "api/schema/swagger-ui/", SpectacularSwaggerView.as_view(url_name="schema"),
-        name="swagger-ui"
+        "api/docs/", SpectacularSwaggerView.as_view(url_name="schema"),
+         name="swagger-ui"
     ),
 ]
