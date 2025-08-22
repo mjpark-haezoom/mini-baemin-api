@@ -26,8 +26,8 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
-class Store():
+class Store:
     pass
 
-class Menu():
+class Menu:
     pass
