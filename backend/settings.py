@@ -16,23 +16,40 @@ DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
 ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
-     "django.contrib.admin",
-     "django.contrib.auth",
-     "django.contrib.contenttypes",
-     "django.contrib.sessions",
-     "django.contrib.messages",
-     "django.contrib.staticfiles",
-     "rest_framework",
-     "drf_spectacular",
-     "drf_spectacular_sidecar",  # Swagger UI 정적 에셋
-     "accounts.apps.AccountsConfig",
- ]
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "rest_framework",
+
+    "accounts.apps.AccountsConfig",
+    "drf_spectacular",
+    "drf_spectacular_sidecar",  # Swagger UI 정적 에셋
+
+]
 
 AUTH_USER_MODEL = "accounts.User"  # User 모델 경로 지정
 
-# DRF & OpenAPI
+# REST_FRAMEWORK 설정
 REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication"
+    ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+# drf-spectacular 설정
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Mini-Baemin API",
+    "DESCRIPTION": "배달 플랫폼 API 서버",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
 
 MIDDLEWARE = [

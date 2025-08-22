@@ -1,5 +1,9 @@
 # accounts/urls.py
 
+from django.urls import path
+
+from .views import UserRegisterView
+
 urlpatterns = [
-    # 여기에 회원가입/로그인 등 엔드포인트를 추후 추가
+    path("signup/", UserRegisterView.as_view(), name="user-signup")
 ]
