@@ -13,15 +13,25 @@ class User(AbstractUser):
         max_length=20,
         choices=USER_TYPE_CHOICES,
         default="consumer",
-        verbose_name="사용자 유형"
+        verbose_name="User Type"
     )
     phone_number = models.CharField(
         max_length=20,
         unique=True,
         blank=True,
         null=True,
-        verbose_name="전화번호"
+        verbose_name="Phone Number"
     )
+
+    email = models.EmailField(
+        unique=True,
+        blank=False,
+        null=False,
+        verbose_name="Email Address"
+    )
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
         return self.username
