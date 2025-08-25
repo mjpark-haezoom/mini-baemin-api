@@ -11,4 +11,6 @@ venv/
 
 # Project-specific
 *.sqlite3
-.env
+.env__pycache__/
+*.py[cod]
+*.pyo
