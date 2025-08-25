@@ -24,6 +24,8 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class LoginSerializer(TokenObtainPairSerializer):
+    username_field = 'email'
+
     def validate(self, attrs):
         data = super().validate(attrs)
         # Add user_type to the token payload
