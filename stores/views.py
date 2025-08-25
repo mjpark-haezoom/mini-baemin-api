@@ -2,7 +2,8 @@
 
 from rest_framework import generics
 from rest_framework import generics
-from rest_framework.permissions import AllowAny, IsOwner
+from rest_framework.permissions import AllowAny
+from accounts.permissions import IsOwner
 from .models import Store, Menu
 from .serializers import StoreListSerializer, MenuSerializer, StoreCreateSerializer
 
