@@ -1,0 +1,27 @@
+# stores/views.py
+
+from rest_framework import generics
+
+from .models import Menu, Store
+from .serializers import MenuSerializer, StoreListSerializer
+
+
+# API view to get a list of all stores
+class StoreListView(generics.ListAPIView):
+    """
+    Retrieves a list of all stores.
+    """
+    queryset = Store.objects.all()
+    serializer_class = StoreListSerializer
+
+# API view to get the menu for a specific store
+class MenuListView(generics.ListAPIView):
+    """
+    Retrieves the menu list for a specific store.
+    """
+    serializer_class = MenuSerializer
+
+    def get_queryset(self):
+        # Filter menu items by the 'store_id' from the URL parameters
+        store_id = self.kwargs["store_id"]
+        return Menu.objects.filter(store_id=store_id)
