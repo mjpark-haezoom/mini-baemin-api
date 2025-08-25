@@ -29,3 +29,7 @@ class MenuListView(generics.ListAPIView):
         store_id = self.kwargs["store_id"]
         return Menu.objects.filter(store_id=store_id)
 
+# API View for owner to create a new store
+class OwnerStoreCreateView(generics.CreateAPIView):
+    permission_classes = [IsOwner]
+    serializer_class = StoreCreateSerializer
