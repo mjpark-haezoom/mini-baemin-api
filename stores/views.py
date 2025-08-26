@@ -1,8 +1,8 @@
 # stores/views.py
 
 from rest_framework import generics
-from rest_framework.permissions import AllowAny
-from accounts.permissions import IsOwner
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from accounts.permissions import IsUserType
 from .models import Store, Menu
 from .serializers import StoreListSerializer, MenuSerializer, StoreCreateSerializer
 
@@ -31,5 +31,6 @@ class MenuListView(generics.ListAPIView):
 
 # API View for owner to create a new store
 class OwnerStoreCreateView(generics.CreateAPIView):
-    permission_classes = [IsOwner]
+    permission_classes = [IsAuthenticated, IsUserType]
+    user_type = 'owner'
     serializer_class = StoreCreateSerializer
