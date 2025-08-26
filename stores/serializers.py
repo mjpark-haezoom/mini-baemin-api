@@ -11,6 +11,12 @@ class StoreListSerializer(serializers.ModelSerializer):
         model = Store
         fields = ["id", "name", "address", "phone_number"]
 
+class StoreCreateSerializer(serializers.ModelSerializer):
+    """Serializer for an owner to create a new store."""
+    class Meta:
+        model = Store
+        fields = ['name', 'address', 'phone_number']
+
 class MenuSerializer(serializers.ModelSerializer):
     """Serializer for retrieving the menu of a specific store."""
     class Meta:

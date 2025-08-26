@@ -2,12 +2,21 @@
 
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
 
-# Virtual Environment
+# Env
+.env
+.env.*
 .venv/
-env/
 venv/
+
+# IDE/OS
+.vscode/
+.idea/
+.DS_Store
+
+# Ruff (로컬 생성 시)
+.ruff_cache/
 
 # Project-specific
 *.sqlite3
