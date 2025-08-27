@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .permissions import IsUserType
+from .permissions import AllowUserTypes
 from .serializers import LoginSerializer, UserSerializer
 
 
@@ -25,7 +25,7 @@ class LoginView(TokenObtainPairView):
 
 class ConsumerView(APIView): # 일반 소비자
     """Permission class to allow access only to users with the 'consumer' type."""
-    permission_classes = [IsAuthenticated, IsUserType]
+    permission_classes = [IsAuthenticated, AllowUserTypes]
     user_type = "consumer"
 
     def get(self, request):
@@ -34,7 +34,7 @@ class ConsumerView(APIView): # 일반 소비자
 
 class OwnerView(APIView): # 점주 (사장님)
     """Permission class to allow access only to users with the 'owner' type."""
-    permission_classes = [IsAuthenticated, IsUserType]
+    permission_classes = [IsAuthenticated, AllowUserTypes]
     user_type = "owner"
 
     def get(self, request):
@@ -43,7 +43,7 @@ class OwnerView(APIView): # 점주 (사장님)
 
 class OperatorView(APIView): # 배민 운영자
     """Permission class to allow access only to users with the 'operator' type."""
-    permission_classes = [IsAuthenticated, IsUserType]
+    permission_classes = [IsAuthenticated, AllowUserTypes]
     user_type = "operator"
 
     def get(self, request):

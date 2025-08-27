@@ -1,46 +1,68 @@
 # docker-compose.yml
-
 services:
-  # 소비자용 API 서비스
   web-consumer:
-    build: .
-    volumes:
-      - .:/code
-    environment:
-      # Django가 consumer-api 프로젝트를 사용하도록 설정
-      - DJANGO_SETTINGS_MODULE=consumer-api.settings
+    build:
+      context: .
+      args:
+        - DEV=true
+    # The command is updated to run the consumer-api project
     command: gunicorn consumer-api.wsgi:application --bind 0.0.0.0:8000
-    depends_on:
-      - db
-
-  # 사장님용 API 서비스 추가
-  web-owner:
-    build: .
     volumes:
-      - .:/code
+      # Mount the whole project directory to the container
+      - .:/app
     environment:
-      # Django가 owner-api 프로젝트를 사용하도록 설정
-      - DJANGO_SETTINGS_MODULE=owner-api.settings
-    command: gunicorn owner-api.wsgi:application --bind 0.0.0.0:8000
+      # Django에게 settings 파일의 위치를 알려줌
+      - DJANGO_SETTINGS_MODULE=consumer-api.settings
+      # 파이썬에게 최상위 모듈 경로를 알려줌
+      - PYTHONPATH=/app
+    env_file:
+      - .env
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+
+
+  web-owner:
+    build:
+      context: .
+      args:
+        - DEV=true
+    # A new service for the owner-api
+    command: gunicorn owner-api.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=owner-api.settings
+      - PYTHONPATH=/app
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
 
   db:
-    image: postgres:16
+    image: postgres:16-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   nginx:
     image: nginx:alpine
     volumes:
+      # Mount your Nginx configuration file
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"
-    # Nginx가 두 백엔드 서비스 모두에 의존하도록 설정
     depends_on:
       - web-consumer
       - web-owner

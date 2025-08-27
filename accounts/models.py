@@ -30,6 +30,27 @@ class User(AbstractUser):
         verbose_name="Email Address"
     )
 
+    # groups 필드에 고유한 related_name을 추가
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name='user_groups_set',
+        blank=True,
+        help_text=(
+            'The groups this user belongs to. A user will get all permissions '
+            'granted to each of their groups.'
+        ),
+        verbose_name='groups',
+    )
+    # user_permissions 필드에 고유한 related_name을 추가
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name='user_permissions_set',
+        blank=True,
+        help_text='Specific permissions for this user.',
+        verbose_name='user permissions',
+    )
+
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
