@@ -112,7 +112,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "backend.wsgi.application"
+WSGI_APPLICATION = "owner-api.wsgi.application"
 
 DATABASES = {
     "default": {
