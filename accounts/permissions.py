@@ -1,15 +1,19 @@
 # accounts/permissions.py
 
-from rest_framework import permissions
+from rest_framework.permissions import BasePermission
+from django.conf import settings
 
-
-class IsUserType(permissions.BasePermission):
+class AllowUserTypes(BasePermission):
+    """
+    Custom permission to only allow access to specific user types defined in settings.
+    settings.ALLOWED_USER_TYPES = ["consumer"]  # For consumer-api
+    settings.ALLOWED_USER_TYPES = ["owner"]     # For owner-api
+    """
     def has_permission(self, request, view):
-        # Checks if the user is authenticated and \
-        # if their user_type matches the one specified
-        # during class instantiation.
-        required_user_type = getattr(view, "user_type", None)
-        if not required_user_type:
-            return False  # Or handle as an error
-        return request.user.is_authenticated and \
-               request.user.user_type == required_user_type
+        # Allow if the user is not authenticated (for public endpoints)
+        # or if the user type is in the allowed list.
+        if not request.user or not request.user.is_authenticated:
+            return True
+
+        allowed_types = getattr(settings, "ALLOWED_USER_TYPES", [])
+        return request.user.user_type in allowed_types
