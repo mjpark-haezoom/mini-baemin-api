@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(
             email=validated_data["email"],
             password=validated_data["password"],
-            username=validated_data.get('username') or None,
+            username=validated_data.get("username") or None,
             user_type=validated_data.get("user_type", "consumer"),
             phone_number=validated_data.get("phone_number")
         )
@@ -36,7 +36,7 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 class LoginSerializer(TokenObtainPairSerializer):
-    username_field = 'email'
+    username_field = "email"
 
     def validate(self, attrs):
         data = super().validate(attrs)
