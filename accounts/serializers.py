@@ -17,12 +17,19 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
+        validated_data['is_active'] = True
+        email = validated_data.get("email")
+        password = validated_data.get("password")
+        username = validated_data.get("username")
+        user_type = validated_data.get("user_type", "consumer")
+        phone_number = validated_data.get("phone_number")
+
         user = User.objects.create_user(
-            email=validated_data["email"],
-            password=validated_data["password"],
-            username=validated_data.get("username") or None,
-            user_type=validated_data.get("user_type", "consumer"),
-            phone_number=validated_data.get("phone_number")
+            email=email,
+            password=password,
+            username=username,
+            user_type=user_type,
+            phone_number=phone_number
         )
         return user
 

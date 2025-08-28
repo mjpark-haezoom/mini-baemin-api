@@ -35,6 +35,8 @@ INSTALLED_APPS = [
 
 ALLOWED_USER_TYPES = ["owner"] # owner용 백엔드 (사장님)
 
+AUTH_USER_MODEL = "accounts.User"
+
 # REST_FRAMEWORK 설정
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
@@ -150,5 +152,6 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
