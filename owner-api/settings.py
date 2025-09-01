@@ -35,7 +35,7 @@ INSTALLED_APPS = [
 
 ALLOWED_USER_TYPES = ["owner"] # owner용 백엔드 (사장님)
 
-AUTH_USER_MODEL = "accounts.User"
+AUTH_USER_MODEL = "accounts.OwnerUser"
 
 # REST_FRAMEWORK 설정
 REST_FRAMEWORK = {

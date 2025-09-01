@@ -2,8 +2,8 @@
 
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from django.contrib.auth.hashers import make_password
 
+# make_password 임포트를 삭제합니다.
 from .models import User, ConsumerUser, OwnerUser, OperatorUser
 
 
@@ -19,21 +19,12 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        validated_data['is_active'] = True
-        validated_data['password'] = make_password(validated_data['password'])
-
-        email = validated_data.get("email")
-        password = validated_data.get("password")
-        username = validated_data.get("username")
-        user_type = validated_data.get("user_type", "consumer")
-        phone_number = validated_data.get("phone_number")
-
         user = User.objects.create_user(
-            email=email,
-            password=password,
-            username=username,
-            user_type=user_type,
-            phone_number=phone_number
+            email=validated_data['email'],
+            password=validated_data['password'],
+            username=validated_data.get('username'),
+            user_type=validated_data.get("user_type", "consumer"),
+            phone_number=validated_data.get("phone_number")
         )
         return user
 
@@ -59,18 +50,7 @@ class ConsumerUserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        validated_data['is_active'] = True
-        validated_data['password'] = make_password(validated_data['password'])
-
-        email = validated_data.get("email")
-        password = validated_data.get("password")
-        username = validated_data.get("username")
-
-        user = ConsumerUser.objects.create_user(
-            email=email,
-            password=password,
-            username=username
-        )
+        user = ConsumerUser.objects.create_user(**validated_data)
         return user
 
 
@@ -86,22 +66,7 @@ class OwnerUserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        validated_data['is_active'] = True
-        validated_data['password'] = make_password(validated_data['password'])
-
-        phone_number = validated_data.get("phone_number")
-        password = validated_data.get("password")
-        username = validated_data.get("username")
-        business_license = validated_data.get("business_license")
-        store_name = validated_data.get("store_name")
-
-        user = OwnerUser.objects.create_user(
-            phone_number=phone_number,
-            password=password,
-            username=username,
-            business_license=business_license,
-            store_name=store_name
-        )
+        user = OwnerUser.objects.create_user(**validated_data)
         return user
 
 
@@ -117,22 +82,7 @@ class OperatorUserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        validated_data['is_active'] = True
-        validated_data['password'] = make_password(validated_data['password'])
-
-        employee_id = validated_data.get("employee_id")
-        password = validated_data.get("password")
-        username = validated_data.get("username")
-        department = validated_data.get("department")
-        position = validated_data.get("position")
-
-        user = OperatorUser.objects.create_user(
-            employee_id=employee_id,
-            password=password,
-            username=username,
-            department=department,
-            position=position
-        )
+        user = OperatorUser.objects.create_user(**validated_data)
         return user
 
 
@@ -142,7 +92,6 @@ class LoginSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         data = super().validate(attrs)
-        # Add user_type to the token payload
         data["user_type"] = self.user.user_type
         return data
 
@@ -152,7 +101,6 @@ class ConsumerLoginSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         data = super().validate(attrs)
-        # Add user_type to the token payload
         data["user_type"] = "consumer"
         return data
 
@@ -162,7 +110,6 @@ class OwnerLoginSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         data = super().validate(attrs)
-        # Add user_type to the token payload
         data["user_type"] = "owner"
         return data
 
@@ -172,6 +119,5 @@ class OperatorLoginSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         data = super().validate(attrs)
-        # Add user_type to the token payload
         data["user_type"] = "operator"
         return data

@@ -35,7 +35,7 @@ INSTALLED_APPS = [
 
 ALLOWED_USER_TYPES = ["consumer"] # 소비자용 백엔드
 
-AUTH_USER_MODEL = "accounts.User"
+AUTH_USER_MODEL = "accounts.ConsumerUser"
 
 
 # REST_FRAMEWORK 설정
