@@ -7,12 +7,12 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .permissions import AllowUserTypes
-from .serializers import LoginSerializer
+from .serializers import OperatorLoginSerializer
 
 
 class OperatorLoginView(TokenObtainPairView):
     permission_classes = [AllowAny]
-    serializer_class = LoginSerializer
+    serializer_class = OperatorLoginSerializer
 
 
 class OperatorView(APIView): # 운영자
