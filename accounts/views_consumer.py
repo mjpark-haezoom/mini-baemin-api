@@ -7,12 +7,12 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .permissions import AllowUserTypes
-from .serializers import LoginSerializer, UserSerializer
+from .serializers import ConsumerLoginSerializer, ConsumerUserSerializer
 
 
 class UserRegisterView(APIView):
     permission_classes = [AllowAny]
-    serializer_class = UserSerializer
+    serializer_class = ConsumerUserSerializer
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -23,7 +23,7 @@ class UserRegisterView(APIView):
 
 class LoginView(TokenObtainPairView):
     permission_classes = [AllowAny]
-    serializer_class = LoginSerializer
+    serializer_class = ConsumerLoginSerializer
 
 class ConsumerView(APIView): # 일반 소비자
     """Permission class to allow access only to users with the 'consumer' type."""
