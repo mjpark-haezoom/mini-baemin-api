@@ -17,5 +17,3 @@ urlpatterns = [
     path("docs/", SpectacularSwaggerView.as_view(url="/api/owner/schema/"), \
             name="swagger-ui"),
 ]
-
-

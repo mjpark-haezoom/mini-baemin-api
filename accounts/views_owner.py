@@ -9,6 +9,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .permissions import AllowUserTypes
 from .serializers import OwnerLoginSerializer, OwnerUserSerializer
 
+
 class OwnerRegisterView(APIView):
     permission_classes = [AllowAny]
     serializer_class = OwnerUserSerializer

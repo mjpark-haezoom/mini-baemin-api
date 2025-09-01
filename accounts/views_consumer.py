@@ -9,7 +9,6 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .permissions import AllowUserTypes
 from .serializers import ConsumerLoginSerializer, ConsumerUserSerializer
 
-
 class UserRegisterView(APIView):
     permission_classes = [AllowAny]
     serializer_class = ConsumerUserSerializer

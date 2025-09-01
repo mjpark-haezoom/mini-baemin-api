@@ -80,9 +80,12 @@ SIMPLE_JWT = {
 # drf-spectacular 설정
 SPECTACULAR_SETTINGS = {
     "TITLE": "Mini-Baemin API",
-    "DESCRIPTION": "배달 플랫폼 API 서버",
+    "DESCRIPTION": "배달 플랫폼 운영자용 API 서버",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+    "SERVERS": [
+        {"url": "/api/backoffice", "description": "Backoffice API Server"},
+    ],
 }
 
 MIDDLEWARE = [
