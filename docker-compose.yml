@@ -40,6 +40,24 @@ services:
       db:
         condition: service_healthy
 
+  web-backoffice:
+    build:
+      context: .
+      args:
+        - DEV=true
+    # A new service for the backoffice-api
+    command: gunicorn backoffice-api.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=backoffice-api.settings
+      - PYTHONPATH=/app
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+
   db:
     image: postgres:16-alpine
     volumes:
@@ -66,6 +84,7 @@ services:
     depends_on:
       - web-consumer
       - web-owner
+      - web-backoffice
 
 volumes:
   postgres_data:
