@@ -13,7 +13,10 @@ class AllowUserTypes(BasePermission):
         # Allow if the user is not authenticated (for public endpoints)
         # or if the user type is in the allowed list.
         if not request.user or not request.user.is_authenticated:
-            return True
+            return False
 
+        # allowed user type list from settings.
         allowed_types = getattr(settings, "ALLOWED_USER_TYPES", [])
+
+        # if user.user_type is in list -> True or False
         return request.user.user_type in allowed_types

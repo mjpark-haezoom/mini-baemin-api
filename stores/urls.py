@@ -8,5 +8,5 @@ urlpatterns = [
     path("", StoreListView.as_view(), name="store-list"),
 
     # 메뉴 조회
-    path("<int:store_id>/menus", MenuListView.as_view(), name="menu-list"),
+    path("<int:store_id>/menus/", MenuListView.as_view(), name="menu-list"),
 ]

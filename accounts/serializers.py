@@ -2,6 +2,7 @@
 
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.contrib.auth.hashers import make_password
 
 from .models import User
 
@@ -18,6 +19,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data['is_active'] = True
+        validated_data['password'] = make_password(validated_data['password'])
+
         email = validated_data.get("email")
         password = validated_data.get("password")
         username = validated_data.get("username")

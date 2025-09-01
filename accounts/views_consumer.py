@@ -1,4 +1,4 @@
-# accounts/views.py
+# accounts/views_consumer.py
 
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -32,22 +32,3 @@ class ConsumerView(APIView): # 일반 소비자
 
     def get(self, request):
         return Response({"message": "Welcome!, 고객님"})
-
-
-class OwnerView(APIView): # 점주 (사장님)
-    """Permission class to allow access only to users with the 'owner' type."""
-    permission_classes = [IsAuthenticated, AllowUserTypes]
-    user_type = "owner"
-
-    def get(self, request):
-        return Response({"message": "Welcome, 점주님!"})
-
-
-class OperatorView(APIView): # 배민 운영자
-    """Permission class to allow access only to users with the 'operator' type."""
-    permission_classes = [IsAuthenticated, AllowUserTypes]
-    user_type = "operator"
-
-    def get(self, request):
-        return Response({"message": "Welcome, 운영자님!"})
-

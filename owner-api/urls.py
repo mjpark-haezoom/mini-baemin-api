@@ -7,7 +7,7 @@ urlpatterns = [
     # 관리자 페이지
     path("admin/", admin.site.urls),
 
-    path("v1/auth/", include("accounts.urls")),
+    path("v1/auth/", include("accounts.urls_owner")),
 
     # 사장님용 엔드포인트 분리 (가게 관리, 메뉴 수정 등)
     path("v1/owner/", include("stores.owner_urls")),
