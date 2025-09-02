@@ -1,3 +1,5 @@
+# consumer-api/settings.py
+
 import os
 from datetime import timedelta
 
@@ -31,16 +33,18 @@ INSTALLED_APPS = [
     "stores.apps.StoresConfig"
 ]
 
-AUTH_USER_MODEL = "accounts.User"  # User 모델 경로 지정
+ALLOWED_USER_TYPES = ["consumer"] # 소비자용 백엔드
+
+AUTH_USER_MODEL = "accounts.ConsumerUser"
+
 
 # REST_FRAMEWORK 설정
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.AllowAny",
+        "rest_framework.permissions.IsAuthenticated",
+        "accounts.permissions.AllowUserTypes",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.BasicAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
@@ -76,9 +80,12 @@ SIMPLE_JWT = {
 # drf-spectacular 설정
 SPECTACULAR_SETTINGS = {
     "TITLE": "Mini-Baemin API",
-    "DESCRIPTION": "배달 플랫폼 API 서버",
+    "DESCRIPTION": "배달 플랫폼 소비자용 API 서버",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+    "SERVERS": [
+        {"url": "/api/consumer", "description": "Consumer API Server"},
+    ],
 }
 
 MIDDLEWARE = [
@@ -91,7 +98,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "backend.urls"
+ROOT_URLCONF = "consumer-api.urls"
 
 TEMPLATES = [
     {
@@ -109,7 +116,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "backend.wsgi.application"
+WSGI_APPLICATION = "consumer-api.wsgi.application"
 
 DATABASES = {
     "default": {
@@ -147,5 +154,6 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
