@@ -1,3 +1,5 @@
+# admin-api/permissions.py
+
 from rest_framework.permissions import BasePermission
 
 def is_developer(u):
@@ -14,3 +16,4 @@ def is_developer(u):
 class IsDeveloper(BasePermission):
     def has_permission(self, request, view):
         return is_developer(request.user)
+

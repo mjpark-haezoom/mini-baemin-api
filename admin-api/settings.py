@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "drf_spectacular_sidecar",  # Swagger UI 정적 에셋
     "rest_framework_simplejwt",
-    "stores.apps.StoresConfig"
+    "stores.apps.StoresConfig",
+    "admin_api.apps.AdminApiConfig",
 ]
 
 ALLOWED_USER_TYPES = ["admin"] # 개발자용 백엔드
@@ -46,7 +47,7 @@ MIGRATION_MODULES = {
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
-        "accounts.permissions.AllowUserTypes",
+        "admin_api.permissions.IsDeveloper",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
@@ -98,9 +99,9 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "admin_api.middleware.AdminOnlyMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "admin_api.middleware.AdminOnlyMiddleware",
 ]
 
 ROOT_URLCONF = "admin-api.urls"
