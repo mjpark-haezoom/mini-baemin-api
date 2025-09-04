@@ -1,5 +1,23 @@
 # docker-compose.yml
 services:
+  # CI/CD 테스트용 web 서비스 (기본적으로 consumer-api 사용)
+  web:
+    build:
+      context: .
+      args:
+        - DEV=true
+    command: gunicorn consumer-api.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=consumer-api.settings
+      - PYTHONPATH=/app
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+
   web-consumer:
     build:
       context: .
@@ -12,7 +30,7 @@ services:
       - .:/app
     environment:
       # Django에게 settings 파일의 위치를 알려줌
-      - DJANGO_SETTINGS_MODULE=settings
+      - DJANGO_SETTINGS_MODULE=consumer-api.settings
       # 파이썬에게 최상위 모듈 경로를 알려줌
       - PYTHONPATH=/app
     env_file:
@@ -32,7 +50,7 @@ services:
     volumes:
       - .:/app
     environment:
-      - DJANGO_SETTINGS_MODULE=settings
+      - DJANGO_SETTINGS_MODULE=owner-api.settings
       - PYTHONPATH=/app
     env_file:
       - .env
@@ -50,7 +68,7 @@ services:
     volumes:
       - .:/app
     environment:
-      - DJANGO_SETTINGS_MODULE=settings
+      - DJANGO_SETTINGS_MODULE=backoffice-api.settings
       - PYTHONPATH=/app
     env_file:
       - .env
@@ -63,14 +81,13 @@ services:
       context: .
       args:
         - DEV=true
-    working_dir: /app/admin-api
     # A new service for the admin-api
-    command: gunicorn admin-api.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn admin_api.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/app
     environment:
-      - DJANGO_SETTINGS_MODULE=settings
-      - PYTHONPATH=/app/admin-api
+      - DJANGO_SETTINGS_MODULE=admin_api.settings
+      - PYTHONPATH=/app
     env_file:
       - .env
     depends_on:
