@@ -12,7 +12,7 @@ services:
       - .:/app
     environment:
       # Django에게 settings 파일의 위치를 알려줌
-      - DJANGO_SETTINGS_MODULE=consumer-api.settings
+      - DJANGO_SETTINGS_MODULE=settings
       # 파이썬에게 최상위 모듈 경로를 알려줌
       - PYTHONPATH=/app
     env_file:
@@ -32,7 +32,7 @@ services:
     volumes:
       - .:/app
     environment:
-      - DJANGO_SETTINGS_MODULE=owner-api.settings
+      - DJANGO_SETTINGS_MODULE=settings
       - PYTHONPATH=/app
     env_file:
       - .env
@@ -50,8 +50,27 @@ services:
     volumes:
       - .:/app
     environment:
-      - DJANGO_SETTINGS_MODULE=backoffice-api.settings
+      - DJANGO_SETTINGS_MODULE=settings
       - PYTHONPATH=/app
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web-admin:
+    build:
+      context: .
+      args:
+        - DEV=true
+    working_dir: /app/admin-api
+    # A new service for the admin-api
+    command: gunicorn admin-api.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings
+      - PYTHONPATH=/app/admin-api
     env_file:
       - .env
     depends_on:
@@ -86,6 +105,7 @@ services:
       - web-consumer
       - web-owner
       - web-backoffice
+      - web-admin
 
 volumes:
   postgres_data:

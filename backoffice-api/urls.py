@@ -7,7 +7,7 @@ urlpatterns = [
     # 관리자 페이지
     path("admin/", admin.site.urls),
     path("v1/auth/", include("accounts.urls_operator")),
-    path("v1/org/", include("accounts.urls_org")),
+    # path("v1/org/", include("accounts.urls_org")),
 
     # API 문서 관련 URL
     path("schema/", SpectacularAPIView.as_view(), name="schema"),

@@ -165,6 +165,7 @@ class User(AbstractUser):
         ("consumer", "consumer"),
         ("owner", "owner"),
         ("operator", "operator"),
+        ("admin", "admin")
     )
 
     user_type = models.CharField(
