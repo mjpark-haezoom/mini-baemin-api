@@ -9,6 +9,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .permissions import AllowUserTypes
 from .serializers import ConsumerLoginSerializer, ConsumerUserSerializer
 
+
 class UserRegisterView(APIView):
     permission_classes = [AllowAny]
     serializer_class = ConsumerUserSerializer
@@ -20,12 +21,15 @@ class UserRegisterView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class LoginView(TokenObtainPairView):
     permission_classes = [AllowAny]
     serializer_class = ConsumerLoginSerializer
 
-class ConsumerView(APIView): # 일반 소비자
+
+class ConsumerView(APIView):  # 일반 소비자
     """Permission class to allow access only to users with the 'consumer' type."""
+
     permission_classes = [IsAuthenticated, AllowUserTypes]
     user_type = "consumer"
 

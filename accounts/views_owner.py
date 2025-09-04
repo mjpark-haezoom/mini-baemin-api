@@ -21,12 +21,15 @@ class OwnerRegisterView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class OwnerLoginView(TokenObtainPairView):
     permission_classes = [AllowAny]
     serializer_class = OwnerLoginSerializer
 
-class OwnerView(APIView): # 점주 (사장님)
+
+class OwnerView(APIView):  # 점주 (사장님)
     """Permission class to allow access only to users with the 'owner' type."""
+
     permission_classes = [IsAuthenticated, AllowUserTypes]
 
     def get(self, request):

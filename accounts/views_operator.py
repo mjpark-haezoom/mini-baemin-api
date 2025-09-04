@@ -1,6 +1,5 @@
 # accounts/views_operator.py
 
-from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -15,8 +14,9 @@ class OperatorLoginView(TokenObtainPairView):
     serializer_class = OperatorLoginSerializer
 
 
-class OperatorView(APIView): # 운영자
+class OperatorView(APIView):  # 운영자
     """Permission class to allow access only to users with the 'operator' type."""
+
     permission_classes = [IsAuthenticated, AllowUserTypes]
 
     def get(self, request):

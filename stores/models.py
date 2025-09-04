@@ -5,6 +5,7 @@ from django.db import models
 
 class Store(models.Model):
     """Model to store information about a store."""
+
     name = models.CharField(max_length=100, verbose_name="Store name")
     address = models.CharField(max_length=255, verbose_name="Address")
     phone_number = models.CharField(max_length=20, verbose_name="Phone number")
@@ -12,8 +13,10 @@ class Store(models.Model):
     def __str__(self):
         return self.name
 
+
 class Menu(models.Model):
     """Model to store menu item information."""
+
     store = models.ForeignKey(
         Store,
         on_delete=models.CASCADE,

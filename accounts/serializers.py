@@ -4,7 +4,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 # make_password 임포트를 삭제합니다.
-from .models import User, ConsumerUser, OwnerUser, OperatorUser
+from .models import ConsumerUser, OperatorUser, OwnerUser, User
 
 
 # Legacy User Serializer (deprecated)
@@ -14,17 +14,15 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["email", "username", "password", "user_type", "phone_number"]
-        extra_kwargs = {
-            "password": {"write_only": True}
-        }
+        extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
         user = User.objects.create_user(
-            email=validated_data['email'],
-            password=validated_data['password'],
-            username=validated_data.get('username'),
+            email=validated_data["email"],
+            password=validated_data["password"],
+            username=validated_data.get("username"),
             user_type=validated_data.get("user_type", "consumer"),
-            phone_number=validated_data.get("phone_number")
+            phone_number=validated_data.get("phone_number"),
         )
         return user
 
@@ -33,7 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         if password:
-            instance.set_password(password) # save hash
+            instance.set_password(password)  # save hash
         instance.save()
         return instance
 
@@ -45,9 +43,7 @@ class ConsumerUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConsumerUser
         fields = ["email", "username", "password"]
-        extra_kwargs = {
-            "password": {"write_only": True}
-        }
+        extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
         user = ConsumerUser.objects.create_user(**validated_data)
@@ -60,10 +56,14 @@ class OwnerUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OwnerUser
-        fields = ["phone_number", "username", "password", "business_license", "store_name"]
-        extra_kwargs = {
-            "password": {"write_only": True}
-        }
+        fields = [
+            "phone_number",
+            "username",
+            "password",
+            "business_license",
+            "store_name",
+        ]
+        extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
         user = OwnerUser.objects.create_user(**validated_data)
@@ -77,9 +77,7 @@ class OperatorUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = OperatorUser
         fields = ["employee_id", "username", "password", "department", "position"]
-        extra_kwargs = {
-            "password": {"write_only": True}
-        }
+        extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
         user = OperatorUser.objects.create_user(**validated_data)

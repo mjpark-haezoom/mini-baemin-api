@@ -1,7 +1,8 @@
 # accounts/permissions.py
 
-from rest_framework.permissions import BasePermission
 from django.conf import settings
+from rest_framework.permissions import BasePermission
+
 
 class AllowUserTypes(BasePermission):
     """
@@ -10,6 +11,7 @@ class AllowUserTypes(BasePermission):
     settings.ALLOWED_USER_TYPES = ["owner"]     # For owner-api
     settings.ALLOWED_USER_TYPES = ["operator"]  # For backoffice-api
     """
+
     def has_permission(self, request, view):
         # Allow if the user is not authenticated (for public endpoints)
         # or if the user type is in the allowed list.
@@ -29,7 +31,7 @@ class AllowUserTypes(BasePermission):
         """
         Determine user type based on the user model class
         """
-        from .models import ConsumerUser, OwnerUser, OperatorUser
+        from .models import ConsumerUser, OperatorUser, OwnerUser
 
         if isinstance(user, ConsumerUser):
             return "consumer"
@@ -39,4 +41,4 @@ class AllowUserTypes(BasePermission):
             return "operator"
         else:
             # Fallback for legacy User model
-            return getattr(user, 'user_type', None)
+            return getattr(user, "user_type", None)
