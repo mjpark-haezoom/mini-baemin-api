@@ -10,8 +10,7 @@ load_dotenv()
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.getenv(
-    "DJANGO_SECRET_KEY",
-    "your-secret-key-that-is-not-for-production"
+    "DJANGO_SECRET_KEY", "your-secret-key-that-is-not-for-production"
 )
 
 DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
@@ -30,10 +29,10 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "drf_spectacular_sidecar",  # Swagger UI 정적 에셋
     "rest_framework_simplejwt",
-    "stores.apps.StoresConfig"
+    "stores.apps.StoresConfig",
 ]
 
-ALLOWED_USER_TYPES = ["owner"] # owner용 백엔드 (사장님)
+ALLOWED_USER_TYPES = ["owner"]  # owner용 백엔드 (사장님)
 
 AUTH_USER_MODEL = "accounts.OwnerUser"
 
@@ -58,20 +57,18 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": False,
-
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
     "VERIFYING_KEY": None,
     "AUDIENCE": None,
     "ISSUER": None,
-
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",
-    "USER_AUTHENTICATION_RULE":
-        "rest_framework_simplejwt.authentication.default_user_authentication_rule",
-
+    "USER_AUTHENTICATION_RULE": (
+        "rest_framework_simplejwt.authentication.default_user_authentication_rule"
+    ),
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
     "TOKEN_TYPE_CLAIM": "token_type",
 }
@@ -130,8 +127,8 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation." \
-                "UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation."
+        "UserAttributeSimilarityValidator",
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -153,6 +150,6 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
